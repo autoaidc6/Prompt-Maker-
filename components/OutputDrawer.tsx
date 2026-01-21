@@ -1,135 +1,140 @@
-
 import React, { useState } from 'react';
-import { X, Copy, Check, MessageSquare, Terminal, Zap } from 'lucide-react';
+import { X, Copy, Check, Terminal, Zap, Sparkles, Wand2 } from 'lucide-react';
+import { GoogleGenAI } from "@google/genai";
 
 interface OutputDrawerProps {
   prompt: string | null;
   onClose: () => void;
 }
 
-const OutputDrawer: React.FC<OutputDrawerProps> = ({ prompt, onClose }) => {
+const OutputDrawer: React.FC<OutputDrawerProps> = ({ prompt: initialPrompt, onClose }) => {
+  const [currentPrompt, setCurrentPrompt] = useState<string | null>(initialPrompt);
   const [copied, setCopied] = useState(false);
+  const [isRefining, setIsRefining] = useState(false);
 
-  if (!prompt) return null;
+  React.useEffect(() => {
+    setCurrentPrompt(initialPrompt);
+  }, [initialPrompt]);
+
+  if (!currentPrompt) return null;
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(prompt);
+    navigator.clipboard.writeText(currentPrompt);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex justify-end">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm transition-opacity"
-        onClick={onClose}
-      />
+  const handleRefine = async () => {
+    setIsRefining(true);
+    try {
+      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      const response = await ai.models.generateContent({
+        model: 'gemini-3-flash-preview',
+        contents: `Please refine this prompt to be more effective for LLMs.
+        Use professional prompt engineering techniques. Return ONLY the refined prompt text.
+        
+        CURRENT PROMPT:
+        ${currentPrompt}`,
+        config: {
+          systemInstruction: "You are an elite Prompt Engineer.",
+          temperature: 0.7,
+        }
+      });
 
-      {/* Drawer */}
-      <div className="relative w-full max-w-2xl bg-slate-900 h-full shadow-2xl border-l border-slate-800 transform transition-transform duration-300 ease-out animate-slide-left">
+      if (response.text) {
+        setCurrentPrompt(response.text);
+      }
+    } catch (error) {
+      console.error("AI Refinement failed:", error);
+    } finally {
+      setIsRefining(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[100] flex justify-end">
+      <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-md" onClick={onClose} />
+      <div className="relative w-full max-w-3xl bg-slate-950 h-full shadow-2xl border-l border-slate-800 animate-slide-left">
         <div className="flex flex-col h-full">
-          {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-slate-800">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-indigo-600 rounded-lg">
-                <Zap size={20} className="text-white" />
+          <div className="flex items-center justify-between p-8 border-b border-slate-800">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-blue-600 rounded-2xl shadow-lg shadow-blue-500/30">
+                <Zap size={24} className="text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-slate-100">Generated Prompt</h2>
-                <p className="text-xs text-slate-500 uppercase tracking-widest font-semibold mt-0.5">Expert Tier Output</p>
+                <h2 className="text-2xl font-bold">Generated Prompt</h2>
+                <p className="text-xs text-slate-500 uppercase tracking-widest font-black mt-1">Digital Product Blueprint</p>
               </div>
             </div>
-            <button
-              onClick={onClose}
-              className="p-2 text-slate-400 hover:text-slate-100 hover:bg-slate-800 rounded-full transition-colors"
-            >
+            <button onClick={onClose} className="p-2 text-slate-400 hover:text-white bg-slate-900 rounded-full transition-colors">
               <X size={24} />
             </button>
           </div>
 
-          {/* Content */}
-          <div className="flex-1 overflow-y-auto p-6">
-            <div className="bg-slate-950/80 border border-slate-800 rounded-2xl overflow-hidden font-mono text-sm group">
-              <div className="flex items-center justify-between px-4 py-3 bg-slate-800/50 border-b border-slate-800">
-                <div className="flex items-center gap-2">
-                  <div className="flex gap-1">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-500/50"></div>
-                    <div className="w-2.5 h-2.5 rounded-full bg-amber-500/50"></div>
-                    <div className="w-2.5 h-2.5 rounded-full bg-green-500/50"></div>
-                  </div>
-                  <span className="text-slate-400 text-xs ml-2">prompt-structure.md</span>
+          <div className="flex-1 overflow-y-auto p-8 space-y-8">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                <Terminal size={14} /> 
+                System Prompt Content
+              </h3>
+              <button
+                onClick={handleRefine}
+                disabled={isRefining}
+                className="flex items-center gap-2 px-4 py-2 bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 rounded-full text-xs font-bold hover:bg-indigo-500/20 transition-all"
+              >
+                <Sparkles size={14} className={isRefining ? 'animate-spin' : ''} />
+                {isRefining ? 'Refining...' : 'Refine with Gemini AI'}
+              </button>
+            </div>
+
+            <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden relative">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/50">
+                <div className="flex gap-2">
+                  <div className="w-3 h-3 rounded-full bg-slate-700"></div>
+                  <div className="w-3 h-3 rounded-full bg-slate-700"></div>
+                  <div className="w-3 h-3 rounded-full bg-slate-700"></div>
                 </div>
                 <button
                   onClick={handleCopy}
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                    copied ? 'bg-green-600 text-white' : 'bg-slate-700 hover:bg-indigo-600 text-slate-200'
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                    copied ? 'bg-emerald-600 text-white' : 'bg-slate-800 hover:bg-blue-600 text-slate-300'
                   }`}
                 >
-                  {copied ? (
-                    <>
-                      <Check size={14} />
-                      COPIED
-                    </>
-                  ) : (
-                    <>
-                      <Copy size={14} />
-                      COPY
-                    </>
-                  )}
+                  {copied ? 'Copied!' : 'Copy to Clipboard'}
                 </button>
               </div>
-              <pre className="p-6 text-indigo-300/90 whitespace-pre-wrap break-words leading-relaxed">
-                {prompt}
-              </pre>
+              <div className="p-8 font-mono text-sm text-indigo-200/80 leading-relaxed whitespace-pre-wrap max-h-[500px] overflow-y-auto">
+                {currentPrompt}
+              </div>
             </div>
 
-            <div className="mt-8 space-y-6">
-              <h3 className="text-lg font-bold text-slate-200">How to use this prompt:</h3>
-              <div className="grid grid-cols-1 gap-4">
-                <div className="flex gap-4 items-start p-4 rounded-xl bg-slate-800/20 border border-slate-800">
-                  <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400 shrink-0">
-                    <MessageSquare size={18} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-200 text-sm mb-1">Paste into AI</h4>
-                    <p className="text-xs text-slate-400 leading-relaxed">Open ChatGPT, Claude, or Gemini and paste the prompt directly as the first message of a new chat session.</p>
-                  </div>
-                </div>
-                <div className="flex gap-4 items-start p-4 rounded-xl bg-slate-800/20 border border-slate-800">
-                  <div className="p-2 rounded-lg bg-amber-500/10 text-amber-400 shrink-0">
-                    <Terminal size={18} />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-slate-200 text-sm mb-1">Verify Output</h4>
-                    <p className="text-xs text-slate-400 leading-relaxed">If the response isn't detailed enough, ask the AI to 'expand on part X' or 'give more specific examples'.</p>
-                  </div>
-                </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="p-6 bg-slate-900 border border-slate-800 rounded-2xl">
+                <Wand2 size={20} className="text-blue-500 mb-4" />
+                <h4 className="font-bold text-sm mb-2">Prompt Engineering</h4>
+                <p className="text-xs text-slate-500 leading-relaxed">This output uses advanced instruction hierarchies optimized for deep reasoning models.</p>
+              </div>
+              <div className="p-6 bg-slate-900 border border-slate-800 rounded-2xl">
+                <Zap size={20} className="text-amber-500 mb-4" />
+                <h4 className="font-bold text-sm mb-2">Instant Blueprint</h4>
+                <p className="text-xs text-slate-500 leading-relaxed">Copy the text above into your AI of choice to begin generating your digital product instantly.</p>
               </div>
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="p-6 border-t border-slate-800 bg-slate-950/30">
+          <div className="p-8 border-t border-slate-800 bg-slate-950">
             <button
               onClick={handleCopy}
-              className="w-full flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white py-4 rounded-xl font-bold transition-all shadow-lg shadow-indigo-500/20"
+              className="w-full bg-blue-600 hover:bg-blue-500 text-white py-5 rounded-2xl font-bold text-lg transition-all shadow-xl shadow-blue-500/20"
             >
-              <Copy size={18} />
-              Copy Final Prompt
+              Copy Final Blueprint
             </button>
           </div>
         </div>
       </div>
-
       <style>{`
-        @keyframes slide-left {
-          from { transform: translateX(100%); }
-          to { transform: translateX(0); }
-        }
-        .animate-slide-left {
-          animation: slide-left 0.3s ease-out;
-        }
+        @keyframes slide-left { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .animate-slide-left { animation: slide-left 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
       `}</style>
     </div>
   );
