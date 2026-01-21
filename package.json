@@ -1,6 +1,5 @@
-
 {
-  "name": "prompt-maker-mvp",
+  "name": "prompt-maker",
   "private": true,
   "version": "1.0.0",
   "type": "module",

@@ -1,5 +1,5 @@
 {
-  "name": "Prompt Maker MVP",
-  "description": "An AI-powered prompt engineering platform to generate expert-level prompts for ChatGPT, Claude, and Gemini using guided workflows.",
+  "name": "Prompt Maker",
+  "description": "Master the art of AI prompting. Generate production-ready instructions for digital product creation.",
   "requestFramePermissions": []
 }
