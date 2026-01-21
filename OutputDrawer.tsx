@@ -34,7 +34,7 @@ const OutputDrawer: React.FC<OutputDrawerProps> = ({ prompt: initialPrompt, onCl
         model: 'gemini-3-flash-preview',
         contents: `Please refine this prompt to be more effective for LLMs (GPT-4/Claude/Gemini). 
         Use professional prompt engineering techniques like persona assignment, clear step-by-step instructions, and delimiter use. 
-        Return ONLY the refined prompt text, no conversational filler.
+        Return ONLY the refined prompt text, no conversational filler or extra markdown blocks unless they are part of the prompt itself.
         
         CURRENT PROMPT:
         ${currentPrompt}`,
@@ -44,6 +44,7 @@ const OutputDrawer: React.FC<OutputDrawerProps> = ({ prompt: initialPrompt, onCl
         }
       });
 
+      // Using the .text property as per @google/genai guidelines
       const refinedText = response.text;
       if (refinedText) {
         setCurrentPrompt(refinedText);
