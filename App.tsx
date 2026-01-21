@@ -85,7 +85,7 @@ ${answers.goal || 'Generate a high-performance output structure.'}
   };
 
   const NavHeader = () => (
-    <header className="p-6 px-12 flex justify-between items-center bg-slate-950/20 backdrop-blur-md sticky top-0 z-50 border-b border-indigo-500/10">
+    <header className="fixed top-0 left-0 right-0 p-6 px-12 flex justify-between items-center bg-slate-950/20 backdrop-blur-md z-50 border-b border-indigo-500/10">
       <button onClick={() => setView('landing')} className="flex items-center gap-2 group">
         <div className="p-2 bg-indigo-600 rounded-lg group-hover:bg-fuchsia-600 transition-colors">
           <Zap className="text-white" size={20} />
@@ -108,9 +108,9 @@ ${answers.goal || 'Generate a high-performance output structure.'}
 
   if (view === 'landing') {
     return (
-      <div className="min-h-screen hero-bg flex flex-col">
+      <div className="min-h-screen hero-bg flex flex-col items-center justify-center">
         <NavHeader />
-        <main className="flex-1 flex flex-col items-center justify-center px-6 text-center max-w-6xl mx-auto py-20">
+        <main className="flex-1 flex flex-col items-center justify-center px-6 text-center max-w-6xl mx-auto w-full">
           <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-bold mb-8 animate-fade-in-up">
             <Sparkles size={14} /> 2.0 Version Now Live
           </div>
@@ -140,9 +140,9 @@ ${answers.goal || 'Generate a high-performance output structure.'}
 
   if (view === 'features') {
     return (
-      <div className="min-h-screen bg-[#05010d]">
+      <div className="min-h-screen bg-[#05010d] flex flex-col items-center justify-center pt-24">
         <NavHeader />
-        <div className="max-w-6xl mx-auto py-20 px-6">
+        <div className="max-w-6xl mx-auto py-20 px-6 w-full">
           <h2 className="text-5xl font-black mb-16 text-center">Built for <span className="text-indigo-500">Scale</span></h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -167,9 +167,9 @@ ${answers.goal || 'Generate a high-performance output structure.'}
 
   if (view === 'pricing') {
     return (
-      <div className="min-h-screen bg-[#05010d]">
+      <div className="min-h-screen bg-[#05010d] flex flex-col items-center justify-center pt-24">
         <NavHeader />
-        <div className="max-w-6xl mx-auto py-20 px-6">
+        <div className="max-w-6xl mx-auto py-20 px-6 w-full">
           <h2 className="text-5xl font-black mb-16 text-center">Simple <span className="text-fuchsia-500">Pricing</span></h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -200,9 +200,9 @@ ${answers.goal || 'Generate a high-performance output structure.'}
 
   if (view === 'reviews') {
     return (
-      <div className="min-h-screen bg-[#05010d]">
+      <div className="min-h-screen bg-[#05010d] flex flex-col items-center justify-center pt-24">
         <NavHeader />
-        <div className="max-w-5xl mx-auto py-20 px-6">
+        <div className="max-w-5xl mx-auto py-20 px-6 w-full">
           <h2 className="text-5xl font-black mb-16 text-center">Loved by <span className="text-rose-500">Creators</span></h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
@@ -233,9 +233,9 @@ ${answers.goal || 'Generate a high-performance output structure.'}
 
   if (view === 'faq') {
     return (
-      <div className="min-h-screen bg-[#05010d]">
+      <div className="min-h-screen bg-[#05010d] flex flex-col items-center justify-center pt-24">
         <NavHeader />
-        <div className="max-w-3xl mx-auto py-20 px-6">
+        <div className="max-w-3xl mx-auto py-20 px-6 w-full">
           <h2 className="text-5xl font-black mb-16 text-center">Got <span className="text-indigo-400">Questions?</span></h2>
           <div className="space-y-4">
             {[
@@ -267,8 +267,8 @@ ${answers.goal || 'Generate a high-performance output structure.'}
 
   if (view === 'tool-select') {
     return (
-      <div className="min-h-screen bg-[#05010d] p-12">
-        <div className="max-w-6xl mx-auto">
+      <div className="min-h-screen bg-[#05010d] flex flex-col items-center justify-center p-6 py-24">
+        <div className="max-w-6xl mx-auto w-full">
           <div className="flex justify-between items-center mb-16">
             <button onClick={() => setView('landing')} className="flex items-center gap-3">
               <Zap className="text-indigo-500" size={32} />
@@ -308,8 +308,8 @@ ${answers.goal || 'Generate a high-performance output structure.'}
   }
 
   return (
-    <div className="min-h-screen bg-[#05010d] flex flex-col items-center py-12 px-6">
-      <div className="w-full max-w-4xl">
+    <div className="min-h-screen bg-[#05010d] flex flex-col items-center justify-center p-6 py-12">
+      <div className="w-full max-w-4xl animate-fade-in-up">
         <button 
           onClick={() => setView('tool-select')}
           className="flex items-center gap-2 text-indigo-300/40 hover:text-white mb-8 transition-colors group font-bold uppercase text-xs tracking-widest"
@@ -330,123 +330,127 @@ ${answers.goal || 'Generate a high-performance output structure.'}
           />
         </div>
 
-        <div className="glass-card rounded-[2.5rem] p-12 shadow-2xl">
-          {step === 1 && (
-            <div className="animate-fade-in-up">
-              <h3 className="text-3xl font-black text-center mb-12">Choose your digital asset</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {PRODUCT_TYPES.map((type) => (
-                  <button
-                    key={type.id}
-                    onClick={() => { setAnswers({ ...answers, productType: type.label }); setStep(2); }}
-                    className={`flex flex-col items-center justify-center gap-3 p-6 rounded-3xl border transition-all hover:scale-105 ${
-                      answers.productType === type.label 
-                        ? 'bg-indigo-600/30 border-indigo-500 text-indigo-100' 
-                        : 'bg-white/5 border-white/10 hover:border-indigo-500/30'
-                    }`}
-                  >
-                    <span className="text-3xl">{type.emoji}</span>
-                    <span className="font-bold text-[11px] text-center uppercase tracking-tight">{type.label}</span>
-                  </button>
-                ))}
+        <div className="glass-card rounded-[2.5rem] p-12 shadow-2xl relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/5 blur-[100px] rounded-full -mr-32 -mt-32"></div>
+          
+          <div className="relative z-10">
+            {step === 1 && (
+              <div>
+                <h3 className="text-3xl font-black text-center mb-12">Choose your digital asset</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {PRODUCT_TYPES.map((type) => (
+                    <button
+                      key={type.id}
+                      onClick={() => { setAnswers({ ...answers, productType: type.label }); setStep(2); }}
+                      className={`flex flex-col items-center justify-center gap-3 p-6 rounded-3xl border transition-all hover:scale-105 ${
+                        answers.productType === type.label 
+                          ? 'bg-indigo-600/30 border-indigo-500 text-indigo-100' 
+                          : 'bg-white/5 border-white/10 hover:border-indigo-500/30'
+                      }`}
+                    >
+                      <span className="text-3xl">{type.emoji}</span>
+                      <span className="font-bold text-[11px] text-center uppercase tracking-tight">{type.label}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {step === 2 && (
-            <div className="animate-fade-in-up">
-              <h3 className="text-3xl font-black text-center mb-12">Who is this for?</h3>
-              <textarea
-                className="w-full bg-white/5 border border-white/10 rounded-3xl p-8 text-indigo-100 placeholder-indigo-300/20 focus:ring-2 focus:ring-fuchsia-500 outline-none transition-all h-56 mb-8 text-lg font-medium leading-relaxed"
-                placeholder="Describe your target audience in detail..."
-                value={answers.audience || ''}
-                onChange={(e) => setAnswers({ ...answers, audience: e.target.value })}
-              />
-              <div className="flex flex-wrap gap-3 justify-center">
-                {['Entrepeneurs', 'Developers', 'Makers', 'Designers', 'Content Creators'].map(tag => (
-                  <button
-                    key={tag}
-                    onClick={() => setAnswers({ ...answers, audience: tag })}
-                    className="px-6 py-2 bg-white/5 rounded-full text-xs font-bold text-indigo-300/40 hover:bg-indigo-600 hover:text-white transition-all border border-white/5"
-                  >
-                    {tag}
-                  </button>
-                ))}
+            {step === 2 && (
+              <div>
+                <h3 className="text-3xl font-black text-center mb-12">Who is this for?</h3>
+                <textarea
+                  className="w-full bg-white/5 border border-white/10 rounded-3xl p-8 text-indigo-100 placeholder-indigo-300/20 focus:ring-2 focus:ring-fuchsia-500 outline-none transition-all h-56 mb-8 text-lg font-medium leading-relaxed"
+                  placeholder="Describe your target audience in detail..."
+                  value={answers.audience || ''}
+                  onChange={(e) => setAnswers({ ...answers, audience: e.target.value })}
+                />
+                <div className="flex flex-wrap gap-3 justify-center">
+                  {['Entrepeneurs', 'Developers', 'Makers', 'Designers', 'Content Creators'].map(tag => (
+                    <button
+                      key={tag}
+                      onClick={() => setAnswers({ ...answers, audience: tag })}
+                      className="px-6 py-2 bg-white/5 rounded-full text-xs font-bold text-indigo-300/40 hover:bg-indigo-600 hover:text-white transition-all border border-white/5"
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {step === 3 && (
-            <div className="animate-fade-in-up">
-              <h3 className="text-3xl font-black text-center mb-12">What is the core mission?</h3>
-              <div className="grid grid-cols-1 gap-4 mb-8">
-                {[
-                  { id: 'teach', label: 'To teach a high-value skill', icon: PenTool },
-                  { id: 'save', label: 'To automate repetitive tasks', icon: Clock },
-                  { id: 'inspire', label: 'To guide and inspire creation', icon: Sparkles },
-                  { id: 'research', label: 'To deep dive into market data', icon: Search },
-                ].map(goal => (
-                  <button
-                    key={goal.id}
-                    onClick={() => { setAnswers({ ...answers, goal: goal.label }); setStep(4); }}
-                    className={`flex items-center justify-between p-8 rounded-3xl border transition-all group ${
-                      answers.goal === goal.label 
-                        ? 'bg-fuchsia-600/20 border-fuchsia-500' 
-                        : 'bg-white/5 border-white/10 hover:border-fuchsia-500/40'
-                    }`}
-                  >
-                    <div className="flex items-center gap-6">
-                      <goal.icon className="text-fuchsia-400 group-hover:scale-110 transition-transform" />
-                      <span className="font-extrabold text-xl">{goal.label}</span>
-                    </div>
-                    <ChevronRight size={20} className="text-white/20" />
-                  </button>
-                ))}
+            {step === 3 && (
+              <div>
+                <h3 className="text-3xl font-black text-center mb-12">What is the core mission?</h3>
+                <div className="grid grid-cols-1 gap-4 mb-8">
+                  {[
+                    { id: 'teach', label: 'To teach a high-value skill', icon: PenTool },
+                    { id: 'save', label: 'To automate repetitive tasks', icon: Clock },
+                    { id: 'inspire', label: 'To guide and inspire creation', icon: Sparkles },
+                    { id: 'research', label: 'To deep dive into market data', icon: Search },
+                  ].map(goal => (
+                    <button
+                      key={goal.id}
+                      onClick={() => { setAnswers({ ...answers, goal: goal.label }); setStep(4); }}
+                      className={`flex items-center justify-between p-8 rounded-3xl border transition-all group ${
+                        answers.goal === goal.label 
+                          ? 'bg-fuchsia-600/20 border-fuchsia-500' 
+                          : 'bg-white/5 border-white/10 hover:border-fuchsia-500/40'
+                      }`}
+                    >
+                      <div className="flex items-center gap-6">
+                        <goal.icon className="text-fuchsia-400 group-hover:scale-110 transition-transform" />
+                        <span className="font-extrabold text-xl">{goal.label}</span>
+                      </div>
+                      <ChevronRight size={20} className="text-white/20" />
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {step === 4 && (
-            <div className="animate-fade-in-up">
-              <h3 className="text-3xl font-black text-center mb-12">Output Tone & Style</h3>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                {['Direct & Pro', 'Enthusiastic', 'Clean Minimalist', 'Deep Technical', 'Provocative', 'Academic'].map(tone => (
-                  <button
-                    key={tone}
-                    onClick={() => setAnswers({ ...answers, tone: tone })}
-                    className={`p-8 rounded-3xl border font-black text-sm uppercase tracking-widest transition-all ${
-                      answers.tone === tone 
-                        ? 'bg-indigo-600 border-indigo-400 text-white shadow-xl shadow-indigo-500/20' 
-                        : 'bg-white/5 border-white/10 hover:border-white/30'
-                    }`}
-                  >
-                    {tone}
-                  </button>
-                ))}
+            {step === 4 && (
+              <div>
+                <h3 className="text-3xl font-black text-center mb-12">Output Tone & Style</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {['Direct & Pro', 'Enthusiastic', 'Clean Minimalist', 'Deep Technical', 'Provocative', 'Academic'].map(tone => (
+                    <button
+                      key={tone}
+                      onClick={() => setAnswers({ ...answers, tone: tone })}
+                      className={`p-8 rounded-3xl border font-black text-sm uppercase tracking-widest transition-all ${
+                        answers.tone === tone 
+                          ? 'bg-indigo-600 border-indigo-400 text-white shadow-xl shadow-indigo-500/20' 
+                          : 'bg-white/5 border-white/10 hover:border-white/30'
+                      }`}
+                    >
+                      {tone}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          <div className="mt-16 flex justify-between gap-6">
-            <button 
-              onClick={() => step > 1 ? setStep(step - 1) : setView('tool-select')}
-              className="flex-1 py-5 rounded-2xl border border-white/10 font-black text-indigo-300/40 hover:text-white hover:bg-white/10 transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs"
-            >
-              <ChevronLeft size={16} />
-              Previous Step
-            </button>
-            <button 
-              onClick={() => { if(step === totalSteps) generateFinalPrompt(); else setStep(step + 1); }}
-              disabled={step === 2 && !answers.audience}
-              className={`flex-[2] py-5 rounded-2xl font-black transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs ${
-                step === 2 && !answers.audience
-                ? 'bg-white/5 text-white/20 cursor-not-allowed border border-white/5'
-                : 'bg-indigo-600 hover:bg-fuchsia-600 text-white shadow-2xl shadow-indigo-500/40'
-              }`}
-            >
-              {step === totalSteps ? 'Generate Blueprint' : 'Continue'}
-              <ChevronRight size={16} />
-            </button>
+            <div className="mt-16 flex justify-between gap-6">
+              <button 
+                onClick={() => step > 1 ? setStep(step - 1) : setView('tool-select')}
+                className="flex-1 py-5 rounded-2xl border border-white/10 font-black text-indigo-300/40 hover:text-white hover:bg-white/10 transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs"
+              >
+                <ChevronLeft size={16} />
+                Previous Step
+              </button>
+              <button 
+                onClick={() => { if(step === totalSteps) generateFinalPrompt(); else setStep(step + 1); }}
+                disabled={step === 2 && !answers.audience}
+                className={`flex-[2] py-5 rounded-2xl font-black transition-all flex items-center justify-center gap-2 uppercase tracking-widest text-xs ${
+                  step === 2 && !answers.audience
+                  ? 'bg-white/5 text-white/20 cursor-not-allowed border border-white/5'
+                  : 'bg-indigo-600 hover:bg-fuchsia-600 text-white shadow-2xl shadow-indigo-500/40'
+                }`}
+              >
+                {step === totalSteps ? 'Generate Blueprint' : 'Continue'}
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
         </div>
       </div>
