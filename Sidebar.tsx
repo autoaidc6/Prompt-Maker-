@@ -1,7 +1,6 @@
-
 import React from 'react';
-import type { ToolId } from './types';
-import { TOOLS } from './constants';
+import type { ToolId } from './types.ts';
+import { TOOLS } from './constants.tsx';
 import { Cpu, HelpCircle } from 'lucide-react';
 
 interface SidebarProps {

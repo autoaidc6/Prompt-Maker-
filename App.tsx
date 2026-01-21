@@ -1,11 +1,10 @@
-
 import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import GuidedMaker from './GuidedMaker';
-import FAQ from './FAQ';
-import OutputDrawer from './OutputDrawer';
-import type { ToolId } from './types';
-import { TOOLS } from './constants';
+import Sidebar from './Sidebar.tsx';
+import GuidedMaker from './GuidedMaker.tsx';
+import FAQ from './FAQ.tsx';
+import OutputDrawer from './OutputDrawer.tsx';
+import type { ToolId } from './types.ts';
+import { TOOLS } from './constants.tsx';
 import { Bell, ChevronRight, Sparkles } from 'lucide-react';
 
 const App: React.FC = () => {

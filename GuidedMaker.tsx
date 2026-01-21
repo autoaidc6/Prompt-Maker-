@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
-import type { ToolConfig } from './types';
+import type { ToolConfig } from './types.ts';
 import { Sparkles, Check, Terminal } from 'lucide-react';
 
 interface GuidedMakerProps {

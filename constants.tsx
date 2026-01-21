@@ -1,7 +1,6 @@
-
 import React from 'react';
-import { Layout, FlaskConical, Search, Globe, Box, Terminal, MessageSquare, BookOpen } from 'lucide-react';
-import { ToolConfig } from './types';
+import { Layout, FlaskConical, Search, Globe, Terminal } from 'lucide-react';
+import { ToolConfig } from './types.ts';
 
 export const TOOLS: ToolConfig[] = [
   {
